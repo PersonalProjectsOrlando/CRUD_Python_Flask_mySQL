@@ -12,9 +12,8 @@ template_dir = os.path.join(template_dir,'src', 'templates')
 app = Flask(__name__, template_folder = template_dir)
 
 #Rutas de aplicacion
-@app.route('/index')
-def home():
-    
+@app.route('/')
+def home():    
     cursor = db.database.cursor()
     cursor.execute("SELECT * FROM users")
     myresult = cursor.fetchall()
@@ -23,8 +22,7 @@ def home():
     columnNames = [column[0] for column in cursor.description]
     for record in myresult:
         insertObject.append(dict(zip(columnNames, record)))
-    cursor.close()
-    
+    cursor.close()    
     return render_template('/index.html', data=insertObject)
 
 @app.route('/user', methods=['POST'])
